@@ -1,5 +1,8 @@
 import tkinter as tk
-from HistoriaMedica.modelo.pacienteDao import Persona, GuardarDatoPaciente
+from tkinter import messagebox
+from tkinter import Button, ttk, scrolledtext, Toplevel
+from HistoriaMedica.modelo.conexion import ConexionDB
+from HistoriaMedica.modelo.pacienteDao import Persona, GuardarDatoPaciente, ListarCondicion, ListarPacientes
 
 
 class Frame(tk.Frame):  # clase para el frame de la ventana principal
@@ -12,6 +15,8 @@ class Frame(tk.Frame):  # clase para el frame de la ventana principal
         self.config(bg="#C0C0C0")
 
         self.campo_paciente()
+        self.DeshabilitarCampos()
+
 
 
     '''creamos campo de los pacientes'''
@@ -115,7 +120,7 @@ class Frame(tk.Frame):  # clase para el frame de la ventana principal
         #BUTTONS
 
 
-        self.btnNuevo = tk.Button(self, text="Nuevo")
+        self.btnNuevo = tk.Button(self, text="Nuevo", command=self.HabilitarCampos)
         self.btnNuevo.config(width=20, font=('Arial', 12, 'bold'), fg='#DAD5D6',
                          bg='#158645', cursor='hand2', activebackground='#35BD6F')
         self.btnNuevo.grid(column=0, row=9, padx=10, pady=10)
@@ -125,7 +130,7 @@ class Frame(tk.Frame):  # clase para el frame de la ventana principal
                          bg='#000000', cursor='hand2', activebackground='#5F5F5F')
         self.btnGuardar.grid(column=1, row=9, padx=10, pady=10)
 
-        self.btnCancelar = tk.Button(self, text="Cancelar")
+        self.btnCancelar = tk.Button(self, text="Cancelar", command=self.DeshabilitarCampos)
         self.btnCancelar.config(width=20, font=('Arial', 12, 'bold'), fg='#DAD5D6',
                          bg='#B00000', cursor='hand2', activebackground='#D27C7C')
         self.btnCancelar.grid(column=2, row=9, padx=10, pady=10)
@@ -144,7 +149,93 @@ class Frame(tk.Frame):  # clase para el frame de la ventana principal
             self.svCorreo.get(),
             self.svTelefono.get()
         )
+        GuardarDatoPaciente(persona)
+        self.DeshabilitarCampos()  # Deshabilita los campos después de guardar
+
+#        if self.idPersona == None:
+#            GuardarDatoPaciente(persona)
+
+    def HabilitarCampos(self):
+
+        self.svNombre.set('')
+        self.svAppaterno.set('')
+        self.svApmaterno.set('')
+        self.svDni.set('')
+        self.svFecNacimiento.set('')
+        self.svEdad.set('')
+        self.svAntecedentes.set('')
+        self.svCorreo.set('')
+        self.svTelefono.set('')
+
+        self.entryNombre.config(state='normal')
+        self.entryAppaterno.config(state='normal')
+        self.entryApmaterno.config(state='normal')
+        self.entryDni.config(state='normal')
+        self.entryFecNacimiento.config(state='normal')
+        self.entryEdad.config(state='normal')
+        self.entryAntecedentes.config(state='normal')
+        self.entryCorreo.config(state='normal')
+        self.entryTelefono.config(state='normal')
+
+        self.btnGuardar.config(state='normal')
+        self.btnCancelar.config(state='normal')
 
 
-        if self.idPersona == None:
-            GuardarDatoPaciente(persona)
+    def  DeshabilitarCampos(self):
+
+        self.svNombre.set('')
+        self.svAppaterno.set('')
+        self.svApmaterno.set('')
+        self.svDni.set('')
+        self.svFecNacimiento.set('')
+        self.svEdad.set('')
+        self.svAntecedentes.set('')
+        self.svCorreo.set('')
+        self.svTelefono.set('')
+
+        self.entryNombre.config(state='disabled')
+        self.entryAppaterno.config(state='disabled')
+        self.entryApmaterno.config(state='disabled')
+        self.entryDni.config(state='disabled')
+        self.entryFecNacimiento.config(state='disabled')
+        self.entryEdad.config(state='disabled')
+        self.entryAntecedentes.config(state='disabled')
+        self.entryCorreo.config(state='disabled')
+        self.entryTelefono.config(state='disabled')
+
+
+        self.btnGuardar.config(state='disabled')
+        self.btnCancelar.config(state='disabled')
+
+    def TablaPacientes(self, where=''):
+        if len(where) > 0:
+            self.ListaPersonas = ListarCondicion(where)
+
+        else:
+            self.ListaPersonas = ListarPacientes()
+
+        self.tabla = ttk.Treeview(self, columns=('idPersona', 'nombre', 'apellidoPaterno', 'apellidoMaterno', 'dni', 'fechaNacimiento', 'edad', 'antecedentes', 'correo', 'telefono'), show='headings')
+        self.tabla.column('idPersona', width=50, anchor='center')
+        self.tabla.column('nombre', width=150, anchor='center')
+        self.tabla.column('apellidoPaterno', width=150, anchor='center')
+        self.tabla.column('apellidoMaterno', width=150, anchor='center')
+        self.tabla.column('dni', width=100, anchor='center')
+        self.tabla.column('fechaNacimiento', width=150, anchor='center')
+        self.tabla.column('edad', width=50, anchor='center')
+        self.tabla.column('antecedentes', width=200, anchor='center')
+        self.tabla.column('correo', width=200, anchor='center')
+        self.tabla.column('telefono', width=100, anchor='center')
+
+        self.tabla.heading('idPersona', text='ID')
+        self.tabla.heading('nombre', text='Nombre')
+        self.tabla.heading('apellidoPaterno', text='Apellido Paterno')
+        self.tabla.heading('apellidoMaterno', text='Apellido Materno')
+        self.tabla.heading('dni', text='DNI')
+        self.tabla.heading('fechaNacimiento', text='Fecha Nacimiento')
+        self.tabla.heading('edad', text='Edad')
+        self.tabla.heading('antecedentes', text='Antecedentes')
+        self.tabla.heading('correo', text='Correo')
+        self.tabla.heading('telefono', text='Telefono')
+
+        self.tabla.grid(row=10, column=0, columnspan=3, padx=10, pady=10, sticky='nsew')
+

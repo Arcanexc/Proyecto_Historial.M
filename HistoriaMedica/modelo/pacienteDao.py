@@ -27,6 +27,50 @@ def GuardarDatoPaciente (Persona):
         mensaje = 'Error al registrar Paciente'
         messagebox.showerror(title, mensaje)
 
+def ListarPacientes():
+    conexion = ConexionDB()
+
+    ListaPersonas = []
+    sql = 'SELECT * FROM Persona WHERE activo = 1'
+
+    try:
+        conexion.cursor.execute(sql)
+        ListaPersonas = conexion.cursor.fetchall()
+        conexion.cerrarConexion()
+    except:
+        title = 'Datos'
+        mensaje = 'Registros no existentes'
+        messagebox.showerror(title, mensaje)
+
+def ListarCondicion(where):
+    conexion = ConexionDB()
+
+    ListaPersonas = []
+    sql = f'SELECT * FROM Persona WHERE activo = 1 {where}'
+
+    try:
+        conexion.cursor.execute(sql)
+        ListaPersonas = conexion.cursor.fetchall()
+        conexion.cerrarConexion()
+    except:
+        title = 'Datos'
+        mensaje = 'Registros no existentes'
+        messagebox.showerror(title, mensaje)
+
+def EliminarPaciente(idPersona):
+    conexion = ConexionDB()
+    sql = f'UPDATE Persona SET activo = 0 WHERE idPersona = {idPersona}'
+
+    try:
+        conexion.cursor.execute(sql)
+        conexion.cerrarConexion()
+        title = 'Eliminar Paciente'
+        mensaje = 'Paciente Eliminado Exitosamente'
+        messagebox.showinfo(title, mensaje)
+    except:
+        title = 'Eliminar Paciente'
+        mensaje = 'Error al eliminar Paciente'
+        messagebox.showerror(title, mensaje)
 
 
 class Persona:
