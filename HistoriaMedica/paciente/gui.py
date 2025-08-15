@@ -1,0 +1,150 @@
+import tkinter as tk
+from HistoriaMedica.modelo.pacienteDao import Persona, GuardarDatoPaciente
+
+
+class Frame(tk.Frame):  # clase para el frame de la ventana principal
+    def __init__(self, root):   # constructor de la clase
+
+        super().__init__(root, width=1280, height=720)  # super() es para llamar al constructor de la clase padre
+        self.root = root                 # self es para referirse a la instancia de la clase
+        self.idPersona = None  # Inicializa el atributo idPersona
+        self.pack()
+        self.config(bg="#C0C0C0")
+
+        self.campo_paciente()
+
+
+    '''creamos campo de los pacientes'''
+
+
+    def campo_paciente(self):   
+
+        # LABEL
+
+        self.lblNombre = tk.Label(self, text="Nombre: ")
+        self.lblNombre.config(font=("Arial", 15, 'bold'), bg="#C0C0C0" )
+        self.lblNombre.grid(row=0, column=0, padx=10, pady=10)
+
+        self.lblAppaterno = tk.Label(self, text="Apellido Paterno: ")
+        self.lblAppaterno.config(font=("Arial", 15, 'bold'), bg="#C0C0C0" )
+        self.lblAppaterno.grid(row=1, column=0, padx=10, pady=10)
+
+        self.lblApmaterno = tk.Label(self, text="Apellido Materno: ")
+        self.lblApmaterno.config(font=("Arial", 15, 'bold'), bg="#C0C0C0" )
+        self.lblApmaterno.grid(row=2, column=0, padx=10, pady=10)
+
+        self.lblDni = tk.Label(self, text="DNI: ")
+        self.lblDni.config(font=("Arial", 15, 'bold'), bg="#C0C0C0" )
+        self.lblDni.grid(row=3, column=0, padx=10, pady=10)
+
+        self.lblFecNacimiento = tk.Label(self, text="Fecha de Nacimiento: ")
+        self.lblFecNacimiento.config(font=("Arial", 15, 'bold'), bg="#C0C0C0" )
+        self.lblFecNacimiento.grid(row=4, column=0, padx=10, pady=10)
+
+
+        self.lblEdad = tk.Label(self, text="Edad: ")
+        self.lblEdad.config(font=("Arial", 15, 'bold'), bg="#C0C0C0" )
+        self.lblEdad.grid(row=5, column=0, padx=10, pady=10)
+
+        self.lblAntecedentes = tk.Label(self, text="Antecedentes: ")
+        self.lblAntecedentes.config(font=("Arial", 15, 'bold'), bg="#C0C0C0" )
+        self.lblAntecedentes.grid(row=6, column=0, padx=10, pady=10)
+
+        self.lblCorreo = tk.Label(self, text="Correo: ")
+        self.lblCorreo.config(font=("Arial", 15, 'bold'), bg="#C0C0C0" )
+        self.lblCorreo.grid(row=7, column=0, padx=10, pady=10)
+
+        self.lblTelefono = tk.Label(self, text="Telefono: ")
+        self.lblTelefono.config(font=("Arial", 15, 'bold'), bg="#C0C0C0" )
+        self.lblTelefono.grid(row=8, column=0, padx=10, pady=10)
+
+
+
+        #ENTRYS
+
+        self.svNombre = tk.StringVar()
+        self.entryNombre = tk.Entry(self, textvariable=self.svNombre)
+        self.entryNombre.config(width=50, font=('Arial',15))
+        self.entryNombre.grid(column=1, row=0, padx=10, pady=10, columnspan= 2)
+
+        self.svAppaterno = tk.StringVar()
+        self.entryAppaterno = tk.Entry(self, textvariable=self.svAppaterno)
+        self.entryAppaterno.config(width=50, font=('Arial',15))
+        self.entryAppaterno.grid(column=1, row=1, padx=10, pady=10, columnspan= 2)
+
+        self.svApmaterno = tk.StringVar()
+        self.entryApmaterno = tk.Entry(self, textvariable=self.svApmaterno)
+        self.entryApmaterno.config(width=50, font=('Arial',15))
+        self.entryApmaterno.grid(column=1, row=2, padx=10, pady=10, columnspan= 2)
+
+        self.svDni = tk.StringVar()
+        self.entryDni = tk.Entry(self, textvariable=self.svDni)
+        self.entryDni.config(width=50, font=('Arial',15))
+        self.entryDni.grid(column=1, row=3, padx=10, pady=10, columnspan= 2)
+
+
+        self.svFecNacimiento = tk.StringVar()
+        self.entryFecNacimiento = tk.Entry(self, textvariable=self.svFecNacimiento)
+        self.entryFecNacimiento.config(width=50, font=('Arial',15))
+        self.entryFecNacimiento.grid(column=1, row=4, padx=10, pady=10, columnspan= 2)
+
+
+        self.svEdad = tk.StringVar()
+        self.entryEdad = tk.Entry(self, textvariable=self.svEdad)
+        self.entryEdad.config(width=50, font=('Arial',15))
+        self.entryEdad.grid(column=1, row=5, padx=10, pady=10, columnspan= 2)
+
+        self.svAntecedentes = tk.StringVar()
+        self.entryAntecedentes = tk.Entry(self, textvariable=self.svAntecedentes)
+        self.entryAntecedentes.config(width=50, font=('Arial',15))
+        self.entryAntecedentes.grid(column=1, row=6, padx=10, pady=10, columnspan= 2)
+
+        self.svCorreo = tk.StringVar()
+        self.entryCorreo = tk.Entry(self, textvariable=self.svCorreo)
+        self.entryCorreo.config(width=50, font=('Arial',15))
+        self.entryCorreo.grid(column=1, row=7, padx=10, pady=10, columnspan= 2)
+
+        
+        self.svTelefono = tk.StringVar()
+        self.entryTelefono = tk.Entry(self, textvariable=self.svTelefono)
+        self.entryTelefono.config(width=50, font=('Arial',15))
+        self.entryTelefono.grid(column=1, row=8, padx=10, pady=10, columnspan= 2)
+
+
+
+        #BUTTONS
+
+
+        self.btnNuevo = tk.Button(self, text="Nuevo")
+        self.btnNuevo.config(width=20, font=('Arial', 12, 'bold'), fg='#DAD5D6',
+                         bg='#158645', cursor='hand2', activebackground='#35BD6F')
+        self.btnNuevo.grid(column=0, row=9, padx=10, pady=10)
+
+        self.btnGuardar = tk.Button(self, text="Guardar", command=self.guardarPaciente)
+        self.btnGuardar.config(width=20, font=('Arial', 12, 'bold'), fg='#DAD5D6',
+                         bg='#000000', cursor='hand2', activebackground='#5F5F5F')
+        self.btnGuardar.grid(column=1, row=9, padx=10, pady=10)
+
+        self.btnCancelar = tk.Button(self, text="Cancelar")
+        self.btnCancelar.config(width=20, font=('Arial', 12, 'bold'), fg='#DAD5D6',
+                         bg='#B00000', cursor='hand2', activebackground='#D27C7C')
+        self.btnCancelar.grid(column=2, row=9, padx=10, pady=10)
+
+
+    def guardarPaciente(self):
+
+        persona = Persona(
+            self.svNombre.get(),
+            self.svAppaterno.get(),
+            self.svApmaterno.get(),
+            self.svDni.get(),
+            self.svFecNacimiento.get(),
+            self.svEdad.get(),
+            self.svAntecedentes.get(),
+            self.svCorreo.get(),
+            self.svTelefono.get()
+        )
+
+
+        if self.idPersona == None:
+            GuardarDatoPaciente(persona)

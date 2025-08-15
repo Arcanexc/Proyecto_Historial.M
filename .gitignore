@@ -1,0 +1,30 @@
+#
+env/
+venv/
+.env/
+
+#
+HistoriaMedica/database/
+*.db
+*.sqlite3
+*.sqlite
+
+#
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+#
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Ignorar archivos de sistema
+.DS_Store
+Thumbs.db
+
+# Ignorar logs
+*.log
+
